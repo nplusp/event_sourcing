@@ -7,6 +7,7 @@
   - can be anything - hash, struct, etc
 
 * event store - store
+  - immutable
   - interface:
     - get (nil -> list of events)
     - append (list of events -> nil)
