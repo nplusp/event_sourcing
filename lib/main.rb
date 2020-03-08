@@ -73,3 +73,8 @@ event = Events::ItemAddedToOrder.new(payload: { order_id: 2, item_id: 2, name: '
 event_store.append(event)
 events = event_store.get
 pp project.call(Projections::AllOrders.new, {}, events)
+
+p '*' * 60
+
+# Print cost for each order
+pp project.call(Projections::CostForOrder.new, {}, events)

@@ -31,4 +31,18 @@ class Projections
       state
     end
   end
+
+  class CostForOrder
+    def call(state, event)
+      case event
+      when Events::OrderCreated
+        state[:order_costs] ||= {}
+        state[:order_costs][event.payload[:order_id]] = 0
+      when Events::ItemAddedToOrder
+        state[:order_costs][event.payload[:order_id]] += event.payload[:cost]
+      end
+
+      state
+    end
+  end
 end
