@@ -20,7 +20,12 @@ class Projections
       case event
       when Events::OrderCreated
         state[:orders] ||= []
-        state[:orders] << event.payload
+        state[:orders] << { **event.payload, items: [] }
+      when Events::ItemAddedToOrder
+        order = state[:orders].detect { |o| o[:order_id] == event.payload[:order_id] }
+        state[:orders].delete(order)
+        order[:items] << event.payload
+        state[:orders] << order
       end
 
       state
